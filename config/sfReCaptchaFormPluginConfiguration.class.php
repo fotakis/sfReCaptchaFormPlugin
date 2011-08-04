@@ -65,7 +65,11 @@ class sfReCaptchaFormPluginConfiguration extends sfPluginConfiguration
     $publicKey = sfConfig::get('app_recaptcha_public_key');
     $privateKey = sfConfig::get('app_recaptcha_private_key');
 
-    return new $class($context, $forms, $publicKey, $privateKey);
+    $options = array(
+      'theme' => sfConfig::get('app_recaptcha_theme','clean')
+    );
+
+    return new $class($context, $forms, $publicKey, $privateKey,$options);
   }
 
   /**

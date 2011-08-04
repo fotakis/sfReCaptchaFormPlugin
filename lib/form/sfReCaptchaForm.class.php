@@ -29,7 +29,8 @@ class sfReCaptchaForm
     $_context,
     $_forms,
     $_publicKey,
-    $_privateKey;
+    $_privateKey,
+    $_options;
 
   /**
    * Class constructor
@@ -39,12 +40,13 @@ class sfReCaptchaForm
    * @param string $publicKey The public recaptcha key
    * @param string $privateKey The private recaptcha key
    */
-  public function __construct(sfContext $context, $forms, $publicKey, $privateKey)
+  public function __construct(sfContext $context, $forms, $publicKey, $privateKey,$options)
   {
     $this->_context = $context;
     $this->_forms = $forms;
     $this->_publicKey = $publicKey;
     $this->_privateKey = $privateKey;
+    $this->_options = $options;
   }
 
   /**
@@ -130,9 +132,8 @@ class sfReCaptchaForm
     $widgetSchema = $form->getWidgetSchema();
     $validatorSchema = $form->getValidatorSchema();
 
-    $widgetSchema['captcha'] = new sfWidgetFormReCaptcha(array(
-      'public_key' => $this->_publicKey
-    ));
+    $options = array('public_key'=>$this->_publicKey)+$this->_options;
+    $widgetSchema['captcha'] = new sfWidgetFormReCaptcha($options);
 
     $validatorSchema['captcha'] = new sfValidatorReCaptcha(array(
       'private_key' => $this->_privateKey
